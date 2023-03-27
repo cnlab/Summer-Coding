@@ -1,0 +1,173 @@
+---
+title: 'QS Assignment: Running simple multiple regression'
+author: "Steven Mesquiti"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  word_document: default
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook detailing how to run simple multiple regression, check the assumptions, and how to write up your results.
+
+In order to first run this we must attach the appropriate packages. If you do not have them you will need to install them.
+
+```{r}
+require(tidyverse)
+require(broom)
+require(psych)
+require(datarium)
+require(corrplot)
+require(ISwR)
+require(ggplot2)
+require(ggiraphExtra)
+require(robustHD)
+```
+
+After we have these packages installed we can then load our data by running this next line, we were going to call it *marketing*!
+
+```{r}
+data("marketing")
+view(marketing)
+```
+
+Next, we'll want to run descriptive statistics for our the variables in our data using the describe() in the psych package.
+```{r}
+describe(marketing)
+```
+
+Since we are going to be building a multiple regression model we'll want to check the class of our variables of interest. With linear regression you *must* have a continuous outcome variable -- if not we need to run logistic regression (we will cover that at a later date). You can have categorical variables but for this exercise let's stick with continuous predictors. 
+
+Let's check the class of sales, youtube, and newspaper to make sure they are classified as numeric in our data frame.
+
+```{r}
+class(marketing$sales)
+class(marketing$youtube)
+class(marketing$newspaper)
+```
+It's also important to become familiar with what your data looks like, so you *should* visualize it to inspect it.
+```{r}
+par(mfrow = c(2,2)) ##specifies we want to make a two row, two column graphic
+for( i in 1:4){
+  hist(marketing[,i], main = colnames(marketing)[i],xlab = colnames(marketing)[i], col = 'blue')}
+```
+We can see that for the most part our distributions are ok. You can see that newspaper looks rather skewed. You could transform   but you need to have a strong theoretical reason to. Far too often we see people transforming data for unguided reasons, without really understanding what they're doing, sometimes it's ok if data look like that. It's really important that you  take into account what you're studying. Plus visuals don't tell the entire story, if you go back and look at it's skewness and kurtosis we're fine (i.e., skew above an absolute value of 3.0 and kurtosis above an absolute value of 8.0 is considered problematic). 
+
+Also important to screen for univariate outliers and boxplots are a great way to do that. They'll come up as little dots if they are. We can see we have some for newspaper so we'll check them out
+```{r}
+par(mfrow = c(2,2))
+for( i in 1:4){
+  boxplot(marketing[,i], main = colnames(marketing)[i],xlab = colnames(marketing)[i], col = 'blue')}
+
+```
+```{r}
+boxplot(marketing$newspaper,
+  ylab = "Newspaper",
+  main = "Boxplot of Newspaper usage"
+)
+```
+Once you ID them you need to decide what how you are going to proceed, but first you should as yourself why the outliers are there(i.e., are they mistakes or actual behavior). There are several acceptable ways: leave as is, winsorize to 3 SDs, replace with the mean, or exclude completely. It looks like ours are actual responses so we are going to leave them alone.
+
+But could run this code to replace using the robustHD package
+```{r}
+pct_2 <- quantile(marketing$newspaper, c(0.02,0.98), type=1)
+pct_2
+
+
+marketing$newspaper <- winsorize(marketing$newspaper, probs = c(0.02, 0.98),
+          na.rm = TRUE, type = 1)
+describe(marketing$newspaper)
+
+boxplot(marketing$newspaper,
+  ylab = "Newspaper",
+  main = "Boxplot of Newspaper usage")
+
+view(marketing)
+```
+
+
+Let's check out what our correlations look like.  We can also visualize them with corrplot() function from the corrplot package. This is important for establishing if a model is even worth specifying and if we might have predictors that are too highly correlated (r>.8) -- leading to a violation of the assumption of multicollinearity.
+```{r}
+cor1 <- cor(marketing[,c(1,3,4)])
+cor1
+corrplot(cor1, method = 'circle')
+```
+
+
+Next we will specify our model, do youtube and newspaper usage predict sales rates?
+Our model in equation form looks like: Sales(y) = Intercept + Youtube(X1) + Newspaper(X2) + error
+```{r}
+model <- lm(sales ~ youtube + newspaper, data = marketing)
+summary(model)
+```
+Now we need to check our assumptions, if you recall there are five major assumptions we need to check: 1.Linearity, 2. Normality, 3. Homogeneity of Variance (HoV), 4. Independence of Residual Errors, and 5. Multicollinearity (which we checked earlier)
+
+We can do this all at once by using this next line of code and inspecting the graphs
+
+*Independence of Residual Errors* is assessed when you specify your model. All values of the outcome variable should come from different person (i.e., they are independent responses). If they are not they you need to run a different type of regression called multilevel modeling.
+
+To assess *linearity* we look at the residual plot, and we want it to show no fitted pattern. That is, the red line should be approximately horizontal at zero. The presence of a pattern (i.e., curvilinear) may indicate a problem with our model.
+
+HoV or *homoscedasiticty* is assessed by looking at the scale location graph. Graphically, we are looking for residuals that are spread equally along the ranges of predictors. It’s good if you see a horizontal line with equally spread points. Moreover, we want our error to be constant across the model. In our example, this is not the case. We can correct this by running a log transformation of the outcome variable (sales). We will correct this when we run model2
+
+We can inspect *normality* by looking at the q-q plot. We want to see all the points fall approximately along the reference line, then we can assume normality, which is the case
+
+
+```{r}
+par(mfrow = c(2, 2))
+plot(model)
+```
+We also need to look for multivariate outliers, which are cases that may influence the findings of our model. It looks we don't have a ton of influential outliers, but to be sure lets inspect our residuals vs leverage graph more closely. Running this next line will give us the 10 most influential MV outliers. Remember, for convention a problematic cooks distance is usually > 1.
+
+```{r}
+plot(model, 4, id.n = 3)
+```
+
+Upon inspecting that we can see we are ok (i.e., Cooks distances < 1). But let's pretend case 166 is problematic so we can practice removing cases.
+```{r}
+marketing <- marketing[-c(166),] 
+```
+Now we'll need to respecify our model, which we are gonna call model2. Don't forget we are running a log transformation to correct for our homogeneity of variance issue (this is a guided use of data transformation). The second two lines of code give us our confidence intervals, which we will need for our write up.
+
+```{r}
+model2 <- lm(log(sales) ~ youtube + newspaper, data = marketing)
+summary(model2)
+confint(model2, 'youtube', level=0.95)
+confint(model2, 'newspaper', level=0.95)
+
+```
+We need to recheck our plots. 
+```{r}
+par(mfrow = c(2, 2))
+plot(model2)
+```
+
+Looks like we are in a little better shape and for the sake of this exercise we will move forward. Now we can visualize our model using ggplot2. 
+
+```{r}
+marketing <- marketing[-c(131),] 
+model2 <- lm(log(sales) ~ youtube + newspaper, data = marketing)
+summary(model2)
+confint(model2, 'youtube', level=0.95)
+confint(model2, 'newspaper', level=0.95)
+```
+
+
+```{r}
+ggplot(marketing, aes(x = youtube, y = log(sales), color = newspaper)) + 
+  geom_point(shape=18) + 
+  stat_smooth(method=lm,  linetype="solid",color="green", fill="blue")
+
+```
+
+
+Now we can write all of this stuff up. 
+
+# Checking assumptions 
+Analyses indicated that there was no indication of a violation of normality as data appeared to be normally distributed via the inspection the q-qplot. The data meets the assumption of linearity, as there is the absence of a curvilinear relationship. Additionally, there appears to be no presence of any univariate level outliers. There is no violation of the assumption of multicollinearity, as no zero-order correlation was problematic. We did observe the presence a violation of the assumption of homogeneity of variance and performed a log transformation on our outcome variable to correct for this violation. Further, we observed the presence of one multivariate outlier that exceeded a Cooks distance of 1, which was excluded from analyses via listwise deletion. 
+
+# Regression write up
+In order to test our hypothesis that youtube and newspaper usage positively predict sales rates, we conducted a simple multiple regression. Our results indicated the presence of a significant regression equation (*F*(2, 195)) = 205.2, *p* < .001, *R^2* = 0.68, with our model accounting for approximately 68% of the variance in sales. We observed that sales increased 0.003 units for each unit increase in youtube usage, *b* = 0.003, *t* = 19.56, *SE* = 0.0001, *CI* [0.002, 0.003], *p* < .001. Further, it was observed that sales increased 0.003 units for each unit increase in newspaper usage *b* = 0.003, *t* = 4.35, *SE* = 0.001, *CI* [0.002, 0.004], *p* < .001.
+
+
+

@@ -1,0 +1,173 @@
+---
+title: "Two way ANOVA"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  html_notebook: default
+By: Steven Mesquiti
+---
+
+This is a [R Markdown](http://rmarkdown.rstudio.com) Notebook detailing how to run a Two-way ANOVA, check it's appropriate assumptions, and how to write up your results consistent with APA-format. 
+
+**What is an ANOVA**
+
+An ANOVA is a statistical test used to compare *two or more* groups (e.g., MPG of Red, Blue, and Green cars). It's more efficient than using multiple t-tests
+
+**What is a Two-way ANOVA?** 
+
+It's a test is used to evaluate simultaneously the effect of two grouping variables (A, B, and their interaction) on a dependent variable.
+
+
+- Two-way ANOVA Null Hypotheses:
+  - 1. There is no difference in the means of factor A
+  - 2. There is no difference in means of factor B
+  - 3. There is no interaction between factors A and B
+
+**Assumptions:**
+
+1. Normality (via inspection of Q-Q plot)
+
+2. Homogeneity of variance (levene's test for equality of error variances or residuals versus fits plot )
+
+For this exercise, we are interested in how mpg (mpg) depends on number of gears (gear) and the number of cylinders it has (cyl).
+
+Read in the data.
+```{r}
+require(haven) ##using this to read in an SPSS (.sav) file into R 
+#set your working directory to where you have this data file, mine is in my Quant Sem folder.
+setwd("~/Quant Sem ")
+df <- read_sav("mtcars.sav") ###rename to a more concise name 
+```
+
+
+Let's check our dataframe and check our summary stats 
+```{r}
+summary(df)
+require(psych)
+describe(df)
+View(df)
+```
+Visualize our continuous variable mpg
+```{r}
+require(ggplot2)
+ggplot(df, aes(x=mpg)) +
+  geom_histogram(binwidth = 1, color='white', fill='black')
+```
+
+
+
+From the output, R is considering our variables of interest as different classes than what is needed. Our comparison groups need to be categorized as factors, not characters. Therefore, we need to reclassify them
+
+```{r}
+df$mpg <- as.numeric(df$mpg)
+df$gear <- as.factor(df$gear)
+df$cyl <- as.factor(df$cyl)
+
+###check to see if they were indeed reclassified 
+str(df)
+```
+Now that we have reclassified our variables of interest, let's trim our data set to make it more manageable. 
+```{r}
+newdf <- df[,c("cyl","mpg","gear")]
+str(newdf)
+```
+Generate a table to take a peak at our design.
+```{r}
+table(newdf$cyl, newdf$gear) ### we can see we have a 3X3 design. That is, we have two variables with three levels. 
+```
+Using box plots to visualize group differences:
+```{r}
+install.packages("ggpubr")
+library(ggpubr)
+boxplot(mpg ~ gear*cyl, data=newdf, frame = FALSE, 
+        col = c("#00AFBB", "#E7B800"), ylab="Vehicle MPG")
+```
+Now let's build our ANOVA, remember we are interested in how mpg differs as a function of **number of cylinders** and **number of gears**, as well as their **interaction**. 
+
+```{r}
+aov1 <- aov(mpg ~ gear * cyl, data = newdf) ### the asterisk denotes that we are interest in two main effects AND their interaction 
+summary(aov1)
+```
+So based on our ANOVA we can see that we have significant main effects for number of gears and cylinder count, but did not observe a significant interaction. 
+
+Need to check our assumptions before we move on: **1. Normality** **2. Homogeneity of variance** 
+
+```{r}
+plot(aov1, 2)#normality
+
+plot(aov1, 1)#homogeneity of variance (HoV)
+
+##can also check HoV using Levene's test for equality of error variances 
+require(car)
+leveneTest(mpg ~ cyl*gear, data = newdf)
+###we do not a significant stat so that means we do not violate assumption of HoV. If it was significant we would need to use corrected degrees of freedom and F stat.
+
+###Most of our points fall along the line so we are ok with normality, we can also check this with a shapiro wilks test.
+# Extract the residuals
+aov_residuals <- residuals(object = aov1)
+# Run Shapiro-Wilk test
+shapiro.test(x = aov_residuals) ###we can check the assumption of normality off as well.
+```
+
+
+Now let's compute some summary stats using dplyr.
+```{r}
+require(dplyr)
+group_by(newdf, gear) %>%
+  summarise(
+    count = n(),
+    mean = mean(mpg, na.rm = TRUE),
+    sd = sd(mpg, na.rm = TRUE)
+  )
+
+group_by(newdf, cyl) %>%
+  summarise(
+    count = n(),
+    mean = mean(mpg, na.rm = TRUE),
+    sd = sd(mpg, na.rm = TRUE)
+  )
+
+```
+Since our ANOVA test was significant, we can compute Tukey HSD post hoc test (Tukey Honest Significant Differences), R function: TukeyHSD() for performing multiple pairwise-comparison between the means of groups. Essentially, this is used to observe *how* groups compare to one another. The function TukeyHD() takes the fitted ANOVA as an argument.
+
+```{r}
+TukeyHSD(aov1, which = "gear")
+TukeyHSD(aov1, which = "cyl")
+###diff: difference between means of the two groups
+###lwr, upr: the lower and the upper end point of the confidence interval at 95% (default) 
+  #if the confidence interval crosses zero it is not significant 
+###p adj: p-value after adjustment for the multiple comparisons (reduces chances of Type 1 error).
+```
+
+```{r}
+summary(aov1)
+require("effectsize")
+eta_squared(aov1, partial = FALSE) ###gives us our effect sizes, that is the proportion of the variance that is accounted for by each factor
+###if the CI includes zero = NS
+```
+
+
+# Write up
+We conducted a two-way ANOVA to examine if vehicle MPG differed based on gearbox size, number of cylinders, and their interaction. We observed a significant main effect of gearbox size, *F*(2,24) = 21.55, *p* < .001, 𝜼^2^ = 0.43. Tukey’s post-hoc indicated that four gear (*M* = 24.53, *SD* = 5.28) and five gear vehicles (*M* = 21.38, *SD* = 6.66) possessed significantly higher MPG than three geared vehicles (*M* = 16.11, *SD* = 3.37). No other pairwise mean differences across groups detected. There was also an observed significant effect of number of cylinders, *F*(2,24) = 174.90, *p* < .001, 𝜼^2^ = 0.31. Tukey’s post-hoc indicated that four cylinder cars (*M* = 26.66, *SD* = 4.51) had significantly higher MPG than six cylinder  (*M* = 19.74, *SD* = 1.45) and eight cylinder vehicles (*M* = 15.10, *SD* = 2.54). We observed no other significant pairwise differences. Further, we did not observe a significant interaction between number of cylinders and gearbox size,*F*(3,24) = 11.21, *p* = .55, 𝜼^2^ = 0.02.
+
+We can also visualize our two-way ANOVA using a line graph
+```{r}
+require(ggplot2)
+ggplot(newdf, aes(x = gear, y = mpg, fill = cyl)) + 
+    geom_boxplot(width = .2, alpha = .5, outlier.size = -1) + 
+    stat_summary(aes(group = cyl, color = cyl), fun.y = "mean", geom = "line", 
+                 position = position_dodge(.2), size = 1) + 
+    stat_summary(fun.y = "mean", geom = "point", shape = 22, size = 2, 
+                 position = position_dodge(.2), show.legend = TRUE) + 
+    scale_y_continuous(limits = c(0, 30)) + 
+    labs(title = "Effect of Gear Number on Car MPG by Number of Cylinders", 
+         x = "Gearbox Size ", y = "Miles per Gallon") + 
+    theme_bw(base_size = 12) + 
+    theme(panel.grid.major.x = element_blank(),
+          axis.ticks.x = element_blank())
+```
+
+
+
+

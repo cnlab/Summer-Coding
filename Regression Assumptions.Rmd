@@ -1,0 +1,108 @@
+---
+title: 'QS Assignment: Interpretive Probems'
+author: "Steven Mesquiti"
+output:
+  word_document: default
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook detailing how to run simple multiple regression and how to write it up.
+
+In order to first run this we must attach the appropriate packages. If you do not have them you will need to install them.
+
+
+```{r}
+library(tidyverse)
+library(broom)
+library(psych)
+library(datarium)
+library(corrplot)
+library(ISwR)
+```
+
+After we have these packages installed we can then load our data by running this next line, we were going to call it *marketing*!
+
+```{r}
+data("marketing")
+view(marketing)
+```
+
+Next, we'll want to run descriptive statistics for our the variables in our data using the psych package.
+```{r}
+describe(marketing)
+```
+
+Since we are going to be building a multiple regression model we'll want to check the class of our variables of interest.  
+Let's check the class of sales, youtube, and newspaper to make sure they are classified as numeric in our data frame.
+
+```{r}
+class(marketing$sales)
+class(marketing$youtube)
+class(marketing$newspaper)
+```
+Let's check out what out correlations look like. 
+```{r}
+cor1 <- cor(marketing[,c(1,3,4)])
+cor1
+corrplot(cor1, method = 'circle')
+```
+
+
+Next we will specify our model, do youtube and newspaper usage predict sales rates?
+Our model in equation form looks like: Sales = Youtube + Newspaper
+```{r}
+model <- lm(sales ~ youtube + newspaper, data = marketing) %>% lm.beta::lm.beta()
+summary(model)
+```
+Now we need to check our assumptions, if you recall there are four: 1.Linearity, 2. Normality, 3. Homogeneity of Variance, and 4. Independence of Residual Errors. 
+We can do this all at once by using this next line of code and inspecting the graphs
+```{r}
+par(mfrow = c(2, 2))
+plot(model)
+```
+It looks like we are ok, and don't have a ton of influential outliers, but to be sure lets inspect our residuals vs leverage graph more closely. Running this next line will give us the 10 most influential MV outliers. Remember a problematic cooks distance is 4/N, which in this case is .02.
+
+```{r}
+plot(model, 4, id.n = 10)
+```
+Upon inspecting that we are going to need to remove some of theses cases. 
+```{r}
+marketing <- marketing[-c(26,36,37,101,129,132,140,166,176,179),] 
+```
+Now we'll need to respecify our model, which we are gonna call model 2. 
+
+```{r}
+model2 <- lm(sales ~ youtube + newspaper, data = marketing) %>% lm.beta::lm.beta()
+summary(model2)
+confint(model2, 'youtube', level=0.95)
+confint(model2, 'newspaper', level=0.95)
+
+```
+We need to recheck our plots. 
+```{r}
+par(mfrow = c(2, 2))
+plot(model2)
+```
+```{r}
+plot(model2, 4, id.n = 10)
+```
+
+Looks like we are in a little better shape, so let's visualize our model using ggplot2. 
+
+```{r}
+ggplot(marketing, aes(x = youtube, y = sales, color = newspaper)) + 
+  geom_point(shape=18) + 
+  stat_smooth(method=lm,  linetype="solid",color="green", fill="blue")
+
+```
+Now we can write all of this stuff up. 
+
+# Checking assumptions 
+Analyses indicated that there was no indication of a violation of normality as data appeared to be normally distributed via the inspection the qqplot. The data meets the assumption of linearity, as there is the absence of a curvilinear relationship. Additionally, there appears to be no presence of any univariate level outliers. There is no violation of the assumption of multicollinearity, as no zero-order correlation was problematic. However, we did observe the presence a violation of the assumption of homogeneity of variance and removed 10 outliers that exceeded a Cooks distance of .02. 
+
+# Regression write up
+In order to test our hypothesis that youtube and newspaper usage positively predict sales rates, we conducted a simple multiple regression. Our results indicated the presence of a significant regression equation (*F*(2, 187)) = 243.2, *p* < .001, *R^2* = 0.719. We observed that sales increased 0.05 units for each unit increase in youtube usage, *b* = 0.048, *t* = 20.79, *SE* = 0.002, *CI* [0.04, 0.05], *p* < .001. Further, it was observed that sales increased 0.054 units for each unit increase in newspaper usage *b* = 0.054, *t* = 5.919, *SE* = 0.009, *CI* [0.036, 0.072], *p* < .001.
+
+
