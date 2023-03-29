@@ -1,5 +1,5 @@
 ---
-title: "Descriptive Statistics and T-tests"
+title: "Descriptive Statistics and T-test Examples"
 author: "Steven"
 date: "`r Sys.Date()`"
 output:
