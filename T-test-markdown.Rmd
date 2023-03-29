@@ -140,6 +140,7 @@ str(genderweight)
 ```
 
 ## Randomly Sampled 
+<<<<<<< HEAD
 
 This is something you do when you design the study--we can't do anything in R to check this.
 
@@ -153,6 +154,21 @@ leveneTest(genderweight$weight ~ genderweight$group)
 
 ## The distribution is approximately normal.
 
+=======
+
+This is something you do when you design the study--we can't do anything in R to check this.
+
+## Homogeneity of Variance 
+
+We need to make sure the variability of the data in each group is similar. We can use something called Levene's Test for equality of error variances to do this. If we violate this assumption (p <. 05 in our test) we will have to use a Welch's T-test. We violate this assumption so if we were actually doing a meaningful project we would need to use a different statistical test. For the sake of brevity we'll pretend we are ok for now. 
+
+```{r}
+leveneTest(genderweight$weight ~ genderweight$group)
+```
+
+## The distribution is approximately normal.
+
+>>>>>>> c904a5f020ecb2e692d0831130897b7e73baf6ea
 To check the distribution of the data we can use density plots in the `ggplot` within `tidyverse` to visualize this. It's also important to get some statistics behind this, and to do that we can look at skewness and kurtosis via the `mystats` function that we wrote earlier. You can also use `psych::describe` to get similar information. For skewness and kurtosis, we want values of skewness fall between − 3 and + 3, and kurtosis is appropriate from a range of − 10 to + 10 
 
 ```{r}
@@ -167,6 +183,7 @@ p+ geom_vline(aes(xintercept=mean(weight)),
 We can also have the densities by gender. Looks like we should have some interesting results!
 
 ```{r}
+<<<<<<< HEAD
 p<-ggplot(genderweight, aes(x=weight, color=group, fill=group, alpha=0.1)) +
   geom_density()+geom_vline(aes(xintercept=mean(weight)),
             color="blue", linetype="dashed", size=1) + plot_aes 
@@ -178,6 +195,15 @@ annotate_figure(p,
                                    hjust = 1.1, x = 1, face = "italic", size = 16))
 ```
 
+=======
+p<-ggplot(genderweight, aes(x=weight, color=group, fill=group,alpha=0.2)) +
+  geom_density()+geom_vline(aes(xintercept=mean(weight)),
+            color="blue", linetype="dashed", size=1) + plot_aes + labs(caption = "Vertical line represents mean value")
+p  
+```
+
+
+>>>>>>> c904a5f020ecb2e692d0831130897b7e73baf6ea
 ```{r}
 mystats(genderweight$weight)
 ```
@@ -252,6 +278,7 @@ plot +  stat_pvalue_manual(stat.test, tip.length = 0) +
 
 ```
 
+<<<<<<< HEAD
 
 # High Level Example
 
@@ -914,5 +941,12 @@ annotate_figure(graphs,
 report::cite_packages()
 ```
 
+=======
+# Package Citations 
+```{r}
+report::cite_packages()
+```
+
+>>>>>>> c904a5f020ecb2e692d0831130897b7e73baf6ea
 All credit goes to the great Dani Cosme for teaching me how to make these! You can find her [github](https://github.com/dcosme) here!
 
