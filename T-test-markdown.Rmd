@@ -53,17 +53,14 @@ knitr::include_graphics("falklab_logo_whitebrain (2).png")
 
 # Getting everything set up {.tabset}
 
-## Set Working Directory and Load Packages
+
 
 ```{r}
 setwd("/Users/stevenmesquiti/Desktop/Summer Coding Curriculum/Summer-Coding") #change to your own WD. you can do that buy modifying the file path or go session (on the upper bar) --> set working directory)
-if (!require("pacman")) install.packages("pacman") #run this if you don't have pacman 
-library(pacman)
-pacman::p_load(tidyverse, ggpubr, rstatix, caret, broom, kableExtra, reactable, Hmisc, datarium, car,install = T) 
-#use pacman to load packages quickly 
+
 ```
 
-
+## Set Working Directory 
 
 **Change to your own working directory (WD) to save things like plots**. You
 can do that buy modifying the file path or go session (on the upper bar)
@@ -76,23 +73,32 @@ what your current WD is, you can use the `getwd` command in the console
 
 **include screenshot?**
 
+## Load Packages
+
+```{r}
+if (!require("pacman")) install.packages("pacman") #run this if you don't have pacman 
+library(pacman)
+pacman::p_load(tidyverse, ggpubr, rstatix, caret, broom, kableExtra, reactable, Hmisc, datarium, car,install = T) 
+#use pacman to load packages quickly 
+```
+
 One of the great things about R is its ability to be super flexible.
 This comes from R's ability to use different `packages`. You can load
-packages into your current `work place` by using the `library(PACKAGE)`
+packages into your current `work environment` by using the `library(PACKAGE)`
 function. It is important to note that in order to `library` a package
 you must first have it installed. To install a package you can use the
 `install.packages("PACKAGE")` command. You can learn more about the
 different types of packages hosted on the Comprehensive R Archive
 Network (CRAN) [here](https://cran.r-project.org/)! One other important
 thing is that some packages often have similar commands (e.g., `plyr`
-and `hmisc` both use summarize) that are masked. To get around this you
-can use `PACKAGE::FUNCTION` to call package-specfic function.
+and `hmisc` both use `summarize`) that are masked meaning that you will call a function and may not get the function you expect. To get around this you
+can use `PACKAGE::FUNCTION` to call package-specific function.
 
 For this script, and here forward, We use `pacman` to load in all of our
 packages rather than using the iterative
 `if (!require("PACKAGE")) install.packages("PACKAGE")` set-up. There's
-still some merit to using that if loading in packages creates issues
-like loading `tidyverse` and `brms` in a certain fashion.
+still some merit to using that if loading in packages in a certain order creates issues
+(e.g.,`tidyverse` and `brms` in a certain fashion).
 
 
 ## Get our plot aesthetics set-up
@@ -147,14 +153,14 @@ actually is. For example, if I am working with two different corpora
 dataframe `atlantic` and the NYT Best-sellers `NYT` for simplicity and
 so I don't accidentally write over files.
 
-For example, if your WD is already set you can use:
+For example, if your WD is already set and the data exists within said directory you can use:
 `df <- read_csv(MY_CSV.csv)`
 
 If the data is on something like `Github` you can use:
 `df <- read_csv('https://raw.githubusercontent.com/scm1210/Language_Lab_Repro/main/Atlantic_Cleaned_all_vars.csv') #read in the data`.
 
 If you are working in one directory and need to call something for
-another folder you can do something like:
+another directory you can do something like:
 `Atlantic_FK <- read_csv("~/Desktop/working-with-lyle/Atlantic/Atlantic_flesch_kinkaid_scores.csv")`
 
 There are also other packages/functions that allow you to read in files
@@ -172,39 +178,54 @@ genderweight <- as.data.frame(genderweight)
 # Show a sample of the data by group
 ```
 
-# Brief Description {.tabset}
+# Brief Description 
 
 Now that we got everything set up, we are going to get into our
-analyses. Today we are going to be looking at gender differences between
+analyses. For the first oart we are going to be looking at gender differences between
 males and females in weight using the `genderweight` dataset from the
 `Datarium` package in R! To this quantify this, we'll use an
 **Independent T-test**. An Independent T-test is when we have one IV
 with **only** two levels (e.g., gender: Male and Female) and one DV that
-is continuous (e.g., weight ranging from 0 to idk 250). If the IV has
+is continuous (e.g., weight ranging from 0 to 250). If the IV has
 more than two levels we need to use another type of test called ANOVA;
 more on that later :).
 
-Some other things: - Two means calculated from two samples Null
-hypothesis: Means from two samples are similar • Alternative hypothesis:
-Means from two samples are different • The bigger the observed
-difference between sample means = More likely sample means differ
+Some other things: 
+
+- Two means calculated from two samples Null
+hypothesis: Means from two samples are similar 
+
+- Alternative hypothesis:
+Means from two samples are different 
+
+- The bigger the observed difference between sample means = More likely sample means differ
 (capture this with effect size).
 
-## Assumptions
+## Statistical Assumptions {.tabset}
 
 Assumption are also important. That is, data need to possess certain
 qualities for us to be able to use this type of test. For a t-test these
-are: • The DV data are continuous (not ordinal or nominal). • The sample
-data have been randomly sampled from a population. • There is
-homogeneity of variance (i.e., the variability of the data in each group
-is similar). • The distribution is approximately normal.
+are: 
 
-## Continuous
+- The DV data are continuous (not ordinal or nominal). 
+
+- The sample
+data have been randomly sampled from a population. 
+
+- There is
+homogeneity of variance (i.e., the variability of the data in each group
+is similar). 
+
+- The distribution is approximately normal.
+
+Click through the tabs to see how to check each assumption.
+
+### Continuous
 
 We can check this by looking at the structutre of our data using the
 `class` function (for one variable) or `str` function (for all the
 variables in our dataset). We can see that weight is `numeric` and
-therefore continuous!
+therefore continuous! Therefore, we can move forward with our analyses. 
 
 ```{r}
 class(genderweight$weight)
@@ -214,12 +235,12 @@ class(genderweight$weight)
 str(genderweight)
 ```
 
-## Randomly Sampled
+### Randomly Sampled
 
 This is something you do when you design the study--we can't do anything
 in R to check this.
 
-## Homogeneity of Variance
+### Homogeneity of Variance
 
 We need to make sure the variability of the data in each group is
 similar. We can use something called Levene's Test for equality of error
@@ -233,7 +254,7 @@ ok for now.
 leveneTest(genderweight$weight ~ genderweight$group)
 ```
 
-## The distribution is approximately normal.
+### The distribution is approximately normal.
 
 To check the distribution of the data we can use density plots in the
 `ggplot` within `tidyverse` to visualize this. It's also important to
@@ -275,7 +296,7 @@ annotate_figure(p,
 mystats(genderweight$weight)
 ```
 
-# Summarty Statistics {.tabset}
+# Summary Statistics {.tabset}
 
 It's also important for us to get some summary statistics for our data
 (e.g., N's, Means, SDs).
@@ -292,7 +313,7 @@ genderweight %>%
 ## Build a simple graph to visualize
 
 We also visualize our data with a box plot, while overlaying the
-scatterplots!
+scatter plots!
 
 ```{r}
  # Create a box plot with jittered data points
@@ -315,12 +336,10 @@ accounted for/Magnitude of the effect (Cohen's D).
 
 ## Independent T-test
 
-From inspecting our output, we can see that we have a significant effect
-of gender on weight. That is, when conducting an independent t-test we
-observed a large effect, sucha that that Men (M = 85.826, SD = 4.354)
-possessed significantly greater [*t*(26.87) =-20.79, *p* \< .001, d =
--6.575] body weight compared to their female counterparts (M = 63.499,
-SD = 2.028).
+We can see that we have a significant effect
+of gender on weight. That is, when conducting our independent t-test we
+observed a large effect [*t*(26.87) =-20.79, *p* \< .001, d =
+-6.575], such that Men (M = 85.826, SD = 4.354) possessed significantly greater body weight compared to their female counterparts (M = 63.499, SD = 2.028).
 
 ```{r}
 stat.test <- genderweight %>% 
@@ -358,9 +377,9 @@ plot +  stat_pvalue_manual(stat.test, tip.length = 0) +
 
 # High Level Example
 
-Next we will see what this looks like at the highest level
+Next we will see what this looks like at the highest level.
 
-This tutorial uses data and reproduces a subset of analyses reported in
+This part of the tutorial uses data and reproduces a subset of analyses reported in
 the following manuscript:
 
 [Mesquiti & Seraj. (Preprint) The Psychological Impacts of the COVID-19
@@ -368,6 +387,8 @@ Pandemic on Corporate Leadership](https://psyarxiv.com/kvar9/)
 
 You can find this project's github
 [here](https://github.com/scm1210/Language_Lab_Repro).
+
+## Abstract
 
 The COVID-19 pandemic sent shockwaves across the fabric of our society.
 Examining the impact of the pandemic on business leadership is
@@ -397,7 +418,6 @@ seven months.
 ```{r}
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse,zoo,lubridate,plotrix,ggpubr, caret, broom, kableExtra, reactable, effsize, install = T)
-setwd("~/Desktop/Language_Lab_Repro")
 ```
 
 ## Define aesthetics
