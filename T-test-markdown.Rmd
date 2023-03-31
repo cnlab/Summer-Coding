@@ -370,8 +370,14 @@ plot <- ggplot(genderweight, aes(x = group, y = weight, color = group)) +
   ggtitle("Weight by Gender") + theme(plot.title = element_text(hjust = 0.5))
 
 stat.test <- stat.test %>% add_xy_position(x = "group")
-plot +  stat_pvalue_manual(stat.test, tip.length = 0) +
-  labs(subtitle = get_test_label(stat.test, detailed = TRUE))
+plot <- plot +  stat_pvalue_manual(stat.test, tip.length = 0) +
+  labs(subtitle = get_test_label(stat.test, detailed = TRUE)) 
+
+annotate_figure(plot,
+                bottom = text_grob("D = -6.575"
+                                   , color = "Black",
+                                   hjust = 1.1, x = 1, face = "italic", size = 16))
+  
 
 ```
 
@@ -923,7 +929,7 @@ baseline_mean_diff(we_mean_baseline)
 
 ## Analytic Thinking
 
-```{r fig.height=6, fig.width=6}
+```{r fig.height=6, fig.width=8}
 
 Analytic <- ggplot(data=df2, aes(x=Date_mean, y=Analytic_mean, group=1)) +
   geom_line(colour = "dodgerblue3") +
@@ -956,7 +962,7 @@ Analytic
 
 ## Cogproc
 
-```{r fig.height=6, fig.width=6}
+```{r fig.height=6, fig.width=8}
 Cogproc <- ggplot(data=df2, aes(x=Date_mean, y=cogproc_mean, group=1)) +
   geom_line(colour = "dodgerblue3") +
   scale_x_date(date_breaks = "3 month", date_labels = "%Y-%m") +
@@ -988,7 +994,7 @@ Cogproc
 
 ## I-words
 
-```{r fig.height=6, fig.width=6}
+```{r fig.height=6, fig.width=8}
 i <- ggplot(data=df2, aes(x=Date_mean, y=i_mean, group=1)) +
   geom_line(colour = "dodgerblue3") +
   scale_x_date(date_breaks = "3 month", date_labels = "%Y-%m") +
@@ -1020,7 +1026,7 @@ i
 
 ## We-words
 
-```{r fig.height=6, fig.width=6}
+```{r fig.height=6, fig.width=8}
 we <- ggplot(data=df2, aes(x=Date_mean, y=we_mean, group=1)) +
   geom_line(colour = "dodgerblue3") +
   scale_x_date(date_breaks = "3 month", date_labels = "%Y-%m") +
