@@ -56,22 +56,20 @@ knitr::include_graphics("falklab_logo_whitebrain (2).png")
 
 
 ```{r}
-setwd("/Users/stevenmesquiti/Desktop/Summer Coding Curriculum/Summer-Coding/t-test") #change to your own WD. you can do that buy modifying the file path or go session (on the upper bar) --> set working directory)
+setwd("/Users/stevenmesquiti/Desktop/Summer Coding Curriculum/Summer-Coding/t-test") #change to your own WD. you can do that by modifying the file path or go session (on the upper bar) --> set working directory)
 
 ```
 
 ## Set Working Directory 
 
 **Change to your own working directory (WD) to save things like plots**. You
-can do that buy modifying the file path or go session (on the upper bar)
+can do that by modifying the file path or go session (on the upper bar)
 --\> set working directory). Working directories are important in R
 because they tell the computer where to look to grab information and
 save things like results. This can vary by project, script, etc. so it's
 important to consistently have the appropriate WD. If you are unsure
 what your current WD is, you can use the `getwd` command in the console
 (usually the lower left hand pane) to get your WD.
-
-**include screenshot?**
 
 ## Load Packages
 
@@ -181,11 +179,11 @@ genderweight <- as.data.frame(genderweight)
 # Brief Description 
 
 Now that we got everything set up, we are going to get into our
-analyses. For the first oart we are going to be looking at gender differences between
+analyses. For the first part we are going to be looking at gender differences between
 males and females in weight using the `genderweight` dataset from the
 `Datarium` package in R! To this quantify this, we'll use an
 **Independent T-test**. An Independent T-test is when we have one IV
-with **only** two levels (e.g., gender: Male and Female) and one DV that
+with **only** two levels or categories (e.g., gender: Male and Female) and one DV that
 is continuous (e.g., weight ranging from 0 to 250). If the IV has
 more than two levels we need to use another type of test called ANOVA;
 more on that later :).
