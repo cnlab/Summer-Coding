@@ -27,7 +27,7 @@ editor_options:
 
 knitr::opts_chunk$set(
 	echo = TRUE,
-	fig.path = "figs/correlaton/",
+	fig.path = "figs/correlation_",
 	message = FALSE,
 	warning = FALSE,
 	cache = FALSE,
