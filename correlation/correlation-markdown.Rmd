@@ -222,11 +222,11 @@ data("mtcars")
 Now that we got everything set up, we are going to get into our
 analyses.Today we are going to look at Simple Correlations. **A correlation test is used to evaluate the association between two or more variables.** For instance, if we are interested to know whether there is a relationship between the weight and fuel efficiency of cars, a correlation coefficient can be calculated to answer this question. If there is no relationship between the two variables (weight and MPG), the average MPG should be the same regardless of the weight of the car and vice versa. For the first part we are going to look how different car qualities relate to eachother!
 
-Some other things 
+## Some other things 
 
 - **Simple Correlation tests can only be calculated between continuous variables**. However, there are other types of correlations tests that can be used to deal with differet data types (that's outside the scope of this tutorial). 
 
-- **Suprious correlations exist (i.e., correlations != causation)!** Just because something appears to be related, due to it's correlation coefficient, doesn't mean there's actually a relationship there. For example, consumption of ice cream and boating accidents are often related. However, does eating more ice cream reallyyyy lead to people having boat accidents? Think about it. Also, if we are going to infercausation we have to manipulate variables experimentally. We often do not do that in studies where we use correlational analyses.
+- **Spurious correlations exist (i.e., correlations != causation)!** Just because something appears to be related, due to it's correlation coefficient, doesn't mean there's actually a relationship there. For example, consumption of ice cream and boating accidents are often related. However, does eating more ice cream reallyyyy lead to people having boat accidents? Think about it. Also, if we are going to infercausation we have to manipulate variables experimentally. We often do not do that in studies where we use correlational analyses.
 
 - **You should become familiar with how to interpret correlation coefficients (esp within your specific field).** That is, what is a small, medium, and large correlation? At what point is a correlation coefficient *too* large (e.g., are you measuring the same construct)? Here's an [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3576830/) that may help!
 
