@@ -487,3 +487,9 @@ inaug_corr <- rcorr(as.matrix(tidy_df_Inaug[1:14]))
 corr_table(inaug_corr)
 ```
 
+# Paakge Citations 
+
+```{r}
+report::cite_packages()
+```
+
