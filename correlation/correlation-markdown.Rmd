@@ -412,7 +412,7 @@ corr_table(corr)
 
 # High-level example {.tabset}
 
-Now, we'll see what look to scale example at the highest level. For this.... 
+Now, we'll see what look to scale example at the highest level. For this script we are going to take a look at how different language variables from Presidential Inaugural Addresses correlate with one another. These speeches were retrieved from the `NLTK` corpus via python and analyzed using ``LIWC``, `spaCY`, and `NLTK`. 
 
 ## Load the data 
 
@@ -431,19 +431,23 @@ year_means <- tidy_df_Inaug %>%
 
 ## Variable Description 
 
-**I-usage**: First-person singular pronoun usage (% of total words). Calculated using LIWC.
+**Flesch-Kincaid Ease of Readability**: higher scores indicate material that is easier to read; lower numbers mark passages that are more difficult to read. Calculated using `spacCy` in python.
 
-**We-usage**: First-person plural pronoun usage (% of total words). Calculated using LIWC.
+**The Flesch–Kincaid Grade Level Score**: presents a score as a U.S. grade level, making it easier for teachers, parents, librarians, and others to judge the readability level of various books and texts.Calculated using `spacCy` in python.
 
-**Pronoun-usage**: Overall pronoun usage (% of total words). Calculated using LIWC.
+**I-usage**: First-person singular pronoun usage (% of total words). Calculated using `LIWC`.
+
+**We-usage**: First-person plural pronoun usage (% of total words). Calculated using `LIWC`.
+
+**Pronoun-usage**: Overall pronoun usage (% of total words). Calculated using `LIWC`.
 
 **Possessive-usage**:First-person singular pronoun usage (% of total words). Calculated using `NLTK POS, PRP, and PRP$` parser
 
 **Of-usage**: Usage of the word 'of' (% of total words). Calculated using `NLTK` parser.
 
-**Contraction-usage**: Usage of 85 most common contractions in English (% of total words). Calculated using custom LIWC dictionary.
+**Contraction-usage**: Usage of 85 most common contractions in English (% of total words). Calculated using custom `LIWC` dictionary.
 
-**Determiners-usage**: Determiner usage (% of total words). Calculated using LIWC.
+**Determiners-usage**: Determiner usage (% of total words). Calculated using `LIWC`.
 
 # Summary Stats {.tabset}
 
