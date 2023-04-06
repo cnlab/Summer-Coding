@@ -1,16 +1,29 @@
 # Summer-Coding
 A repository for the CN Lab Summer REU Students! [Work in Progress] 
 
-## Stuff to add
-- reproducibility template
-  - see dani's [GITHUB](https://github.com/dcosme)
-- some relevant datasets
-- better t test code w/ repro markdown 
-  - should explain *what* a t-test is/does and how to report 
-- simple correlation markdown
-  - this should explain *what* a correlation is/does and how to report 
-- some simple data viz stuff. how to write simple plots
-- organize all code into relevant folders
-  - exploratory analyses (i.e., correlational design)
-  - confirmatory analyse (i.e., stuff like t-tests)
-If we want to get ambitious we can also throw in some simple NLP stuff. I think Arden and Denise will have different skillsets and we should try to cater to those best we can 
+## Folder Breakdown 
+
+### Data-viz-basics
+
+- **figs/data-viz**: All figures produced when you run the **Data-Viz.Rmd** file locally.
+- **Data-Viz.Rmd**: R Markdown file you can use to run all analyses etc. locally. 
+- **Data-Viz.html**: Compiled HTML produced.
+
+### correlation 
+
+- **figs**: All figures produced when you run the **correlation-markdown.Rmd** file locally.
+- **correlation-markdown.Rmd**: R Markdown file you can use to run all analyses etc. locally. 
+
+### t-test
+
+- **figs/t-test**: All figures produced when you run the **T-test-markdown.Rmd** file locally.
+- **T-test-markdown.Rmd**: R Markdown file you can use to run all analyses etc. locally. 
+- **T-test-markdown.html**: Compiled HTML produced.
+
+### data
+
+Folder containing the following datasets:
+
+- **Atlantic_Cleaned_all_vars.csv**: CSV of 40k+ analyzed Atlantic articles using `spaCy`, `LIWC`, and `NLTK`.
+- **Big_CEO.csv**: CSV of `LIWC` output for 70K+ CEO quarterly earnings calls from 2006-2021. 
+- **Inaug_ALL_VARS.csv**: CSV of 40k+ analyzed Inaugural addresses using `spaCy`, `LIWC`, and `NLTK`.

@@ -692,3 +692,13 @@ annotate_figure(graphs,
                                    , color = "Black",
                                    hjust = 1.1, x = 1, face = "italic", size = 16))
 ```
+# Package Citations
+
+```{r}
+report::cite_packages()
+```
+
+All credit goes to the great Dani Cosme for teaching me how to make
+these! You can find her [github](https://github.com/dcosme) here!
+
+Parts of this script were adapted from this [article](https://towardsdatascience.com/a-guide-to-data-visualisation-in-r-for-beginners-ef6d41a34174) by [Parul Pandey](https://pandeyparul.medium.com/?source=---two_column_layout_sidebar----------------------------------)
