@@ -407,7 +407,7 @@ genderweight <- as.data.frame(genderweight)
 
 # Make some plots with `ggplot2` {.tabset}
 
-Now we we'll focus on making a variety of different plots using `ggplot2` to demonstrate its flexibility. You can read more about `ggplot2` [here](https://ggplot2.tidyverse.org/) and find its cheatsheet [here](https://www.maths.usyd.edu.au/u/UG/SM/STAT3022/r/current/Misc/data-visualization-2.1.pdf). Cheatsheets are great for quickly figuring out what you need to implement certain thinhs 
+Now we we'll focus on making a variety of different plots using `ggplot2` to demonstrate its flexibility. You can read more about `ggplot2` [here](https://ggplot2.tidyverse.org/) and find its cheat sheet [here](https://www.maths.usyd.edu.au/u/UG/SM/STAT3022/r/current/Misc/data-visualization-2.1.pdf). Cheat sheets are great for quickly figuring out what you need to implement certain thinhs 
 
 ## Basic Density 
 
@@ -465,11 +465,11 @@ ggplot(genderweight, aes(x = group, y = weight,color = group)) +
 
 # Showing change over time 
 
-We can use a variety of functions within `ggplot2` to show how things change over time, one of which is line graphs. To do so, we can `tidy` our data (one observation per row using a package like `dplyr`. Now, I'll demonstrate how to do some using data from a project I worked on in Jamie Pennebaker's lab.
+We can use a variety of functions within `ggplot2` to show how things change over time, one of which is line graphs. To do so, we can `tidy` our data (one observation per row using a package like `dplyr`. Now, I'll demonstrate how to do some using data from a project I worked on in Jamie Pennebaker's lab using Linguistic Inquiry and Word Count (LIWC; pronounced Luke).
 
 ## Load in the Data
 
-First, we load in the raw data from github. Second, we subset the data for a range of dates we are interested in (March 2019-March 2021). We then filter out word counts that are too noisy. Since LIWC is a bag of words program, we want to make sure our observations aren't too noisy or large. For example, in the sentence "I love you" pronouns take up about 66% of the words the sentence and doing any type of analyses with that would not be very informative. We can get more into LIWC later. 
+First, we load in the raw data from github. Second, we subset the data for a range of dates we are interested in (March 2019-March 2021). We then filter out word counts that are too noisy. Since LIWC is a bag of words program, we want to make sure our observations aren't too noisy or large. For example, in the sentence "I love you" pronouns take up about 66% of the words the sentence and doing any type of analyses with that would not be very informative. We can get more into LIWC at a later time 
 
 One we have formatted our data appropriately, we can move to tidy it up. That is, we get the 4 variables of interest and use dplyr to group them by the month of their observation and then summarize them by getting the means and standard errors for each variable within each month
 
@@ -496,7 +496,6 @@ head(df2)
 ## Build our Graphs {.tabset}
 
 Now, we'll run our code. Here's a general explanation of what each line does using our first example:
-
 
 `Analytic <- ggplot(data=df2, aes(x=Date_mean, y=Analytic_mean, group=1)) +`  creates a ggplot object and names it `Analytic`. We have `Date_mean` as our X axis and `Analytic_mean` as our y variable
 
@@ -544,12 +543,12 @@ Now, we'll run our code. Here's a general explanation of what each line does usi
             
 `Analytic <- Analytic + annotate(geom="text",x=as.Date("2020-07-01"),` save a new object called Analytic and write text at this specific date on the x plane
 
-`y=43,label="Summer 2020 surge", size = 3) +` specifying what our label is and what the y plane value is and font size
+`y=43,label="Summer 2020 surge", size = 3) +` specifying what our label is,  what the y plane value is and font size
                                 
 `annotate(geom="text",x=as.Date("2020-12-03"),` his specific date on the x plane
   
 
-`y=43,label="Winter 2020 surge", size = 3)` specifying what our label is and what the y plane value is and font size
+`y=43,label="Winter 2020 surge", size = 3)` specifying what our label is,  what the y plane value is and font size
            
 We can use the `{r fig.height=6, fig.width=8}` in the block of code to specify the dimensions of our figures. This is super helpful when building stuff for presentations, project, etc. I forgot to mention earlier that in the `set-up` chunk we used `fig.path = "figs/data-viz/"` to specify where our figures to output to within our working directroy. So, if you go to wherever your directorty is you should be able to find them in that file path :). 
 
