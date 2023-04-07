@@ -270,7 +270,7 @@ attach(mtcars)
 
 ### Scatterplots
 
-`geom_point()` is used to create scatterplots and geom can have many variations like `geom_jitter()`, `geom_count()`, etc. Here, we use it to create a scattrerplo for weight and mpg of cars. Notice how we specify what variables we want on our X and Y axes.
+`geom_point()` is used to create scatterplots and geom can have many variations like `geom_jitter()`, `geom_count()`, etc. Here, we use it to create a scatterplot for weight and mpg of cars. Notice how we specify what variables we want on our X and Y axes.
 
 ```{r echo=T}
 ggplot(data = mtcars, mapping = aes(x = wt, y = mpg)) + geom_point()
