@@ -507,7 +507,7 @@ Now, we'll run our code. Here's a general explanation of what each line does usi
   
 `ggtitle("Analytic Thinking") +` titles our plot 
   
-`labs(x = "Month", y = 'Standardized score') +` adds our x and y axis lables
+`labs(x = "Month", y = 'Standardized score') +` adds our x and y axis labels
   
 `plot_aes +` here's our plot aes object
   
