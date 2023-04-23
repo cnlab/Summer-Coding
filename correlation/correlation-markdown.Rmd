@@ -217,16 +217,16 @@ For the first half, we are going to be using the `mtcars` dataset which is built
 data("mtcars")
 ```
 
-# Brief Descritpion 
+# Brief Description 
 
 Now that we got everything set up, we are going to get into our
-analyses.Today we are going to look at Simple Correlations. **A correlation test is used to evaluate the association between two or more variables.** For instance, if we are interested to know whether there is a relationship between the weight and fuel efficiency of cars, a correlation coefficient can be calculated to answer this question. If there is no relationship between the two variables (weight and MPG), the average MPG should be the same regardless of the weight of the car and vice versa. For the first part we are going to look how different car qualities relate to eachother!
+analyses.Today we are going to look at Simple Correlations. **A correlation test is used to evaluate the association between two or more variables.** For instance, if we are interested to know whether there is a relationship between the weight and fuel efficiency of cars, a correlation coefficient can be calculated to answer this question. If there is no relationship between the two variables (weight and MPG), the average MPG should be the same regardless of the weight of the car and vice versa. For the first part we are going to look how different car qualities relate to each other!
 
 ## Some other things 
 
-- **Simple Correlation tests can only be calculated between continuous variables**. However, there are other types of correlations tests that can be used to deal with differet data types (that's outside the scope of this tutorial). 
+- **Simple Correlation tests can only be calculated between continuous variables**. However, there are other types of correlations tests that can be used to deal with different data types (that's outside the scope of this tutorial). 
 
-- **Spurious correlations exist (i.e., correlations != causation)!** Just because something appears to be related, due to it's correlation coefficient, doesn't mean there's actually a relationship there. For example, consumption of ice cream and boating accidents are often related. However, does eating more ice cream reallyyyy lead to people having boat accidents? Think about it. Also, if we are going to infercausation we have to manipulate variables experimentally. We often do not do that in studies where we use correlational analyses.
+- **Spurious correlations exist (i.e., correlations != causation)!** Just because something appears to be related, due to it's correlation coefficient, doesn't mean there's actually a relationship there. For example, consumption of ice cream and boating accidents are often related. However, does eating more ice cream reallyyyy lead to people having boat accidents? Think about it. Also, if we are going to infer causation we have to manipulate variables experimentally. We often do not do that in studies where we use correlational analyses.
 
 - **You should become familiar with how to interpret correlation coefficients (esp within your specific field).** That is, what is a small, medium, and large correlation? At what point is a correlation coefficient *too* large (e.g., are you measuring the same construct)? Here's an [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3576830/) that may help!
 
@@ -251,7 +251,7 @@ Click through the tabs to see how to check each assumption.
 ### Continuous
 
 We can check this by looking at the structure of our data using the `str` function (for all the
-variables in our dataset). We can see that variables R is treating as continuos and move forward with our analyses! 
+variables in our dataset). We can see what variables R is treating as continuous and move forward with our analyses! 
 
 ```{r}
 str(mtcars)
@@ -264,7 +264,7 @@ in R to check this.
 
 ### No outliers 
 
-We can use the QQ-plot to inspect for outliers, which is in the `ggpubr` package. To do this we are going to utilize R's ability to write `functions` and `for loops`. First, we grab all of the names of the variables we want to get qq-plots for using `vars <- colnames(mtcars)` and save them as a list in R. This will allow us to specifty what variables we want to graph. Depending on what datset we are working with, that can be as few as 2 or as many as the entire dataset! Second, we write our `qqplot_all` function which allows us to write the same graph as many times as we want without having to write out graphing code every. single. time. This is especially useful when graphs don't need unique customizations. Next, we write out `for loop` which allows us to use the `qqplot_all` function for each of the 11 graphs and save them as 11 unique objects named `qq_var[i]`. We then arrange all 11 using `ggarrange` so we can take a look. Lastly, we use Markdown's customizability to specify how large (or small) we want out figure to be. Here we go with a 10 x 10 figure. We can see that the variable don't have any observations > abs(3) and therefore no outliers.
+We can use the QQ-plot to inspect for outliers, which is in the `ggpubr` package. To do this we are going to utilize R's ability to write `functions` and `for loops`. First, we grab all of the names of the variables we want to get qq-plots for using `vars <- colnames(mtcars)` and save them as a list in R. This will allow us to specify what variables we want to graph. Depending on what datset we are working with, that can be as few as 2 or as many as the entire dataset! Second, we write our `qqplot_all` function which allows us to write the same graph as many times as we want without having to write out graphing code every. single. time. This is especially useful when graphs don't need unique customizations. Next, we write out `for loop` which allows us to use the `qqplot_all` function for each of the 11 graphs and save them as 11 unique objects named `qq_var[i]`. We then arrange all 11 using `ggarrange` so we can take a look. Lastly, we use Markdown's customizability to specify how large (or small) we want out figure to be. Here we go with a 10 x 10 figure. We can see that the variable don't have any observations > abs(3) and therefore no outliers.
 
 ```{r, height=10, fig.width=10}
 vars <- colnames(mtcars)

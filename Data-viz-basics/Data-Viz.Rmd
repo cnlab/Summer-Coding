@@ -63,7 +63,7 @@ setwd("~/Desktop/Summer Coding Curriculum/Summer-Coding/Data-viz-basics") #chang
 
 Datasets can either be built-in or can be loaded from external sources in R.
 
-Built-in datasets refer to the datasets already provided within R. For the first part, we will be using a dataset called the **air quality dataset**, which pertains to the daily air quality measurements in New York from May to September 1973. **This dataset consists of more than 100 observations on 6 variables** 
+Built-in datasets refer to the datasets already provided within R. For the first part, we will be using a dataset called the **air quality dataset**, which pertains to the daily air quality measurements in New York from May to September 1973. **This dataset consists of more than 100 observations for 6 variables** 
 
 - `Ozone`(mean parts per billion)
 
@@ -81,7 +81,7 @@ Built-in datasets refer to the datasets already provided within R. For the first
 data(airquality)
 ```
 
-In case of an **External data source** (CSV, Excel, text, HTML file etc.), simply set the folder containing the data as the working directory with the `setwd()` command.
+In case of an **External data source** (CSV, Excel, text, HTML file etc.), simply set the folder containing the data as the working directory with the `setwd()` command. Alternatively, you can set the path to the file if you don't want to change your directory, but this is *not* recommended. 
 
 ```{r echo=TRUE}
 setwd("~/Desktop/Summer Coding Curriculum/Summer-Coding/Data-viz-basics") #change to your own local directory 
@@ -89,7 +89,7 @@ setwd("~/Desktop/Summer Coding Curriculum/Summer-Coding/Data-viz-basics") #chang
 
 Now, load the file with the help of the `read` command. In this case, data is in the form of a CSV file named `airquality.csv` which can be downloaded from [here](https://github.com/parulnith/Data-Visualisation-with-R/blob/master/airquality.csv).
 
-airquality <- read.csv('airquality.csv',header=TRUE, sep=",")
+`airquality <- read.csv('airquality.csv',header=TRUE, sep=",")`
 
 One small (but important) thing to note is that you can name objects in R using both `<-` and `=` which basically tells the computer "save the csv under this name". In our case save **'airquality.csv'** as `airquality`
 
@@ -98,7 +98,7 @@ The above code reads the file **airquality.csv** into a data frame `airquality`.
 
 ## Data Exploration 
 
-Once the data has been loaded into the workspace, we need to explore it to get an idea about its structure and what we have to work with. 
+Once the data has been loaded into the global environment (workspace), we need to explore it to get an idea about its structure and what we have to work with. 
 
 To do so, we can use several different functions within R
 
@@ -118,7 +118,7 @@ head(airquality)
 tail(airquality) 
 ```
 
-- `summary(airquality)`The summary method displays descriptive statistics for every variable in the dataset, depending upon the type of the variable. We can see at a glance the mean, median, max and the quartile values of the variables.
+- `summary(airquality)`The summary method displays descriptive statistics for every variable in the dataset, depending upon the type of the variable. We can see at a glance the mean, median, max and the quartile values of the variables, as well as an missing observations which is especially valuable. 
 
 ```{r echo=T}
 summary(airquality)
@@ -142,7 +142,7 @@ Let's now advance this some and plot a graph between the Ozone and Wind values t
 plot(airquality$Ozone, airquality$Wind)
 ```
 
-What happens when we use plot command with the entire dataset without selecting any particular columns?
+What happens when we use `plot` command with the entire dataset without selecting any particular columns?
 
 We get a matrix of scatterplots which is a correlation matrix of all the columns. The plot above instantly shows that:
 
@@ -150,7 +150,7 @@ We get a matrix of scatterplots which is a correlation matrix of all the columns
 
 - Wind speed is negatively correlated to both Temperature and Ozone level.
 
-*We can quickly discover the relationship between variables by merely looking at the plots drawn between them.*
+**We can quickly discover the relationship between variables by merely looking at the plots drawn between them.**
 
 ```{r echo=T}
 plot(airquality)
@@ -160,7 +160,7 @@ plot(airquality)
 
 We can easily style our charts by playing with the arguments of the `plot()` function.
 
-The plot function has an argument called `type` which can take in values like `p`: points, `l`: lines, `b`: both etc. This decides the shape of the output graph.
+The `plot` function has an argument called `type` which can take in values like `p`: points, `l`: lines, `b`: both etc. This decides the shape of the output graph.
 
 ```{r echo=T}
 # points and lines 
@@ -170,7 +170,6 @@ The plot function has an argument called `type` which can take in values like `p
 ```{r echo=T}
 # high density vertical lines.
  plot(airquality$Ozone, type= "h")
-
 ```
 
 **Labels and Titles** 
@@ -194,18 +193,18 @@ In a bar plot, data is represented in the form of rectangular bars and the lengt
 
 ```{r echo=T}
 # Horizontal bar plot
- barplot(airquality$Ozone, main = 'Ozone Concenteration in air',xlab = 'ozone levels', col= 'green',horiz = TRUE)
+ barplot(airquality$Ozone, main = 'Ozone Concenteration in air',xlab = 'ozone levels', col= 'green',horiz = F)
 ```
 
 ## Histogram 
 
-A histogram is quite similar to a bar chart except that it groups values into continuous ranges. A histogram represents the frequencies of values of a variable bucketed into ranges.We get a histogram of the Solar.R values.
+A histogram is quite similar to a bar chart except that it groups values into continuous ranges. A histogram represents the frequencies of values of a variable bucketed into ranges. We get a histogram of the Solar.R values with `hist(airquality$Solar.R)`.
 
 ```{r echo=T}
 hist(airquality$Solar.R)
 ```
 
-By giving an appropriate value for the color argument, we can obtain a colored histogram as well.
+By giving an appropriate value for the color argument (e.g., `col='red'`), we can obtain a colored histogram as well.
 
 ```{r echo=T}
 hist(airquality$Solar.R, main = 'Solar Radiation values in air',xlab = 'Solar rad.', col='red')
@@ -213,7 +212,7 @@ hist(airquality$Solar.R, main = 'Solar Radiation values in air',xlab = 'Solar ra
 
 ## Boxplot
 
-We have seen how the `summary()` command in R can display the descriptive statistics for every variable in the dataset. Boxplot does the same albeit graphically in the form of quartiles. It is again very straightforward to plot a boxplot in R.
+We have seen how the `summary()` command in R can display the descriptive statistics for every variable in the dataset. Boxplot does the same albeit graphically in the form of quartiles (e.g.,lowest 25% of the data, the middle 50% of the data, and the highest 25% of the data). It is again very straightforward to plot a boxplot in R.
 
 **Making a single box plot**
 
@@ -248,7 +247,7 @@ boxplot(airquality[,0:4], main='Multiple Box plots')
 
 # Visualization libraries (packages) in R
 
-R comes equipped with sophisticated visualization libraries having great capabilities. In this section, we will use the built-in `mtcars` dataset to show the use of the `ggplot2` library. This dataset has been extracted from the 1974 Motor Trend US magazine.
+R comes equipped with sophisticated visualization libraries having great capabilities. In this section, we will use the built-in `mtcars` dataset to show the use of the `ggplot2` library (many data scientists' personal favorite). This dataset has been extracted from the 1974 Motor Trend US magazine.
 
 ##  `Ggplot2` {.tabset}
 
@@ -328,18 +327,18 @@ thing is that some packages often have similar commands (e.g., `plyr`
 and `hmisc` both use `summarize`) that are masked meaning that you will call a function and may not get the function you expect. To get around this you
 can use `PACKAGE::FUNCTION` to call package-specific function.
 
-For this part of the script script, and here forward, We use `pacman` to load in all of our
+For this part of the script, and here forward, we use `pacman` to load in all of our
 packages rather than using the iterative
 `if (!require("PACKAGE")) install.packages("PACKAGE")` set-up. There's
 still some merit to using that if loading in packages in a certain order creates issues
-(e.g.,`tidyverse` and `brms` in a certain fashion).
+(e.g.,`tidyverse` and `brms` in a certain fashion; I've had issues with this in the past -_-).
 
 ## Get our plot aesthetics set-up
 
-This is a super quick and easy way to style our plots without introduce
+This is a super quick and easy way to style our plots without introducing
 a vile amount of code lines to each chunk! Let's break down what we are working with:  
 
-- `theme_classic()` let's us style our plot with a transparent back drop, rather than the grey, and use some other styling features. 
+- `theme_classic()` let's us style our plot with a transparent back drop, rather than the grey, and use some other styling features.
 
 - `theme()` allows us to specify other parameters which are discussed below
 
@@ -371,8 +370,8 @@ plot_aes = theme_classic() +
 
 Since we are using existing datasets in R and on github, we don't need to do
 anything fancy here. However, when normally load in data you can use a
-few different approaches. In most reproducible scripts you'll see people
-use nomenclature similar to `df`, `data`, `dataframe`, etc. to denote a
+few different approaches. In most reproducible scripts, you'll see people
+use nomenclature similar to: `df`, `data`, `dataframe`, etc. to denote a
 dataframe. If you are working with multiple datasets, it's advisable to
 call stuff by a intuitive name that allows you to know what the data
 actually is. For example, if I am working with two different corpora
@@ -393,9 +392,8 @@ another directory you can do something like:
 There are also other packages/functions that allow you to read in files
 with different extensions such as `haven::read_sav()` to read in a file
 from SPSS or `rjson:: fromJSON(file="data.json")`to read in a json file.
-If you want to learn more about how to reading in different files you
-can take a peek at [this
-site](https://www.datafiles.samhsa.gov/get-help/format-specific-issues/how-do-i-read-data-r).
+If you want to learn more about how to read in different files you
+can take a peek at [this site](https://www.datafiles.samhsa.gov/get-help/format-specific-issues/how-do-i-read-data-r).
 
 ```{r}
 # Load the data
@@ -407,7 +405,7 @@ genderweight <- as.data.frame(genderweight)
 
 # Make some plots with `ggplot2` {.tabset}
 
-Now we we'll focus on making a variety of different plots using `ggplot2` to demonstrate its flexibility. You can read more about `ggplot2` [here](https://ggplot2.tidyverse.org/) and find its cheat sheet [here](https://www.maths.usyd.edu.au/u/UG/SM/STAT3022/r/current/Misc/data-visualization-2.1.pdf). Cheat sheets are great for quickly figuring out what you need to implement certain thinhs 
+Now we we'll focus on making a variety of different plots using `ggplot2` to demonstrate its flexibility. You can read more about `ggplot2` [here](https://ggplot2.tidyverse.org/) and find its cheat sheet [here](https://www.maths.usyd.edu.au/u/UG/SM/STAT3022/r/current/Misc/data-visualization-2.1.pdf). Cheat sheets are great for quickly figuring out what you need to implement certain things, although ChatGPT has probably surpased them at this pont. 
 
 ## Basic Density 
 
