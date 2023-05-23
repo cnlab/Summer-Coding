@@ -431,9 +431,9 @@ year_means <- tidy_df_Inaug %>%
 
 ## Variable Description 
 
-**Flesch-Kincaid Ease of Readability**: higher scores indicate material that is easier to read; lower numbers mark passages that are more difficult to read. Calculated using `spacCy` in python.
+**Flesch-Kincaid Ease of Readability**: higher scores indicate material that is easier to read; lower numbers mark passages that are more difficult to read. Calculated using `spaCy` in python.
 
-**The Flesch–Kincaid Grade Level Score**: presents a score as a U.S. grade level, making it easier for teachers, parents, librarians, and others to judge the readability level of various books and texts.Calculated using `spacCy` in python.
+**The Flesch–Kincaid Grade Level Score**: presents a score as a U.S. grade level, making it easier for teachers, parents, librarians, and others to judge the readability level of various books and texts.Calculated using `spaCy` in python.
 
 **I-usage**: First-person singular pronoun usage (% of total words). Calculated using `LIWC`.
 
@@ -487,7 +487,7 @@ inaug_corr <- rcorr(as.matrix(tidy_df_Inaug[1:14]))
 corr_table(inaug_corr)
 ```
 
-# Paakge Citations 
+# Package Citations 
 
 ```{r}
 report::cite_packages()

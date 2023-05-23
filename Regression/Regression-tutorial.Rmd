@@ -922,7 +922,7 @@ scale_color_manual(values = colors) +
         axis.ticks.y = element_blank())
 ```
 
-### I
+## I
 
 ```{r fig.height=6, fig.width=8}
 
@@ -938,7 +938,7 @@ i +
 
 ```
 
-### We
+## We
 
 ```{r fig.height=6, fig.width=8}
 inaug_we <- lm(we_centered ~ year, data = tidy_df_Inaug)
@@ -951,7 +951,7 @@ we +
             color="green4", size=3,hjust = 0) 
 ```
 
-### Pronouns
+## Pronouns
 
 ```{r fig.height=6, fig.width=8}
 inaug_pronouns <- lm(pronoun_centered ~ year, data = tidy_df_Inaug)
@@ -964,7 +964,7 @@ pronouns +
             color="green4", size=3,hjust = 0)
 ```
 
-### WPS
+## WPS
 
 ```{r fig.height=6, fig.width=8}
 inaug_WPS <- lm(WPS_centered ~ year, data = tidy_df_Inaug)
@@ -977,7 +977,7 @@ geom_text(aes(x=1789, y=wps_max, label=paste("Inaugural Speeches: ", format(coef
 color="green4", size=3,hjust = 0)
 ```
 
-### Determiners
+## Determiners
 
 ```{r fig.height=6, fig.width=8}
 inaug_determiners <- lm(det_centered ~ year, data = tidy_df_Inaug)
@@ -989,7 +989,7 @@ determiners +
 geom_text(aes(x = 1789, y = det_max, label = paste("Inaugural Speeches: ", format(coef(inaug_determiners)[2], digits = 2), " p = ", format(inaug_determiners_pvalue, digits = 2))), color = "green4", size = 3,hjust = 0) 
 ```
 
-### Possessives 
+## Possessives 
 
 ```{r fig.height=6, fig.width=8}
 inaug_possessives <- lm(pos_centered ~ year, data = tidy_df_Inaug)
@@ -1002,7 +1002,7 @@ possessives +
 geom_text(aes(x = 1789, y = possessives_max, label = paste("Inaugural Speeches: ", format(coef(inaug_possessives)[2], digits = 2), " p = ", format(inaug_possessives_pvalue, digits = 2))), color = "green4", size = 3, hjust = 0) 
 ```
 
-### Of-usage
+## Of-usage
 
 ```{r fig.height=6, fig.width=8}
 inaug_of <- lm(of_centered ~ year, data = tidy_df_Inaug)
@@ -1014,7 +1014,7 @@ of +
 geom_text(aes(x = 1789, y = of_max, label = paste("Inaugural Speeches: ", format(coef(inaug_of)[2], digits = 2), " p = ", format(inaug_of_pvalue, digits = 2))), color = "green4", size = 3,hjust = 0)
 ```
 
-### Contractions
+## Contractions
 
 ```{r fig.height=6, fig.width=8}
 inaug_contractions <- lm(con_centered ~ year, data = tidy_df_Inaug)
@@ -1026,7 +1026,7 @@ contractions  +
 geom_text(aes(x = 1789, y = cont_max, label = paste("Inaugural Speeches: ", format(coef(inaug_contractions)[2], digits = 2), " p = ", format(inaug_contractions_pvalue, digits = 2))), color = "green4", size = 3,hjust = 0) 
 ```
 
-### All Graphs
+## All Graphs
 
 ```{r fig.height=11, fig.width=13}
 tidy_smooth_graphs <- ggpubr::ggarrange(i,we,pronouns, WPS,determiners, possessives, of, contractions,
