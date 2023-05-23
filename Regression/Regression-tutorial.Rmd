@@ -1,6 +1,6 @@
 ---
 title: "Regression examples"
-author: "Steven"
+author: "Steven Mesquiti"
 year: "`r Sys.Date()`"
 output:
   html_document:
@@ -318,7 +318,7 @@ plot +
 
 # Model Assessment {.tabset}
 
-In the previous section, we built a linear model of sales as a function of youtube advertising budget: `sales = 8.44 + 0.048*youtube.`
+In the previous section, we built a linear model of sales as a function of youtube advertising budget: `sales = 8.44 (intercept) + 0.048*youtube.`
 
 Before using this formula to predict future sales, you should make sure that this model is statistically significant, that is:
 
