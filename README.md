@@ -1,5 +1,5 @@
 # Summer-Coding
-A repository for the CN Lab Summer REU Students! [Work in Progress] 
+A repository for the CN Lab Summer REU Students!
 
 ## Folder Breakdown 
 
