@@ -11,7 +11,7 @@
 
 <meta name="author" content="Steven" />
 
-<meta name="date" content="2023-04-03" />
+<meta name="date" content="2023-06-01" />
 
 <title>Simple Correlation examples</title>
 
@@ -4897,7 +4897,7 @@ border-radius: 0px;
 
 <h1 class="title toc-ignore">Simple Correlation examples</h1>
 <h4 class="author">Steven</h4>
-<h4 class="date">2023-04-03</h4>
+<h4 class="date">2023-06-01</h4>
 
 </div>
 
@@ -5054,8 +5054,8 @@ dataset which is built into R and we are going to call it
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mtcars&quot;</span>)</span></code></pre></div>
 </div>
 </div>
-<div id="brief-descritpion" class="section level1">
-<h1>Brief Descritpion</h1>
+<div id="brief-description" class="section level1">
+<h1>Brief Description</h1>
 <p>Now that we got everything set up, we are going to get into our
 analyses.Today we are going to look at Simple Correlations. <strong>A
 correlation test is used to evaluate the association between two or more
@@ -5065,13 +5065,13 @@ a correlation coefficient can be calculated to answer this question. If
 there is no relationship between the two variables (weight and MPG), the
 average MPG should be the same regardless of the weight of the car and
 vice versa. For the first part we are going to look how different car
-qualities relate to eachother!</p>
+qualities relate to each other!</p>
 <div id="some-other-things" class="section level2">
 <h2>Some other things</h2>
 <ul>
 <li><p><strong>Simple Correlation tests can only be calculated between
 continuous variables</strong>. However, there are other types of
-correlations tests that can be used to deal with differet data types
+correlations tests that can be used to deal with different data types
 (that’s outside the scope of this tutorial).</p></li>
 <li><p><strong>Spurious correlations exist (i.e., correlations !=
 causation)!</strong> Just because something appears to be related, due
@@ -5079,7 +5079,7 @@ to it’s correlation coefficient, doesn’t mean there’s actually a
 relationship there. For example, consumption of ice cream and boating
 accidents are often related. However, does eating more ice cream
 reallyyyy lead to people having boat accidents? Think about it. Also, if
-we are going to infercausation we have to manipulate variables
+we are going to infer causation we have to manipulate variables
 experimentally. We often do not do that in studies where we use
 correlational analyses.</p></li>
 <li><p><strong>You should become familiar with how to interpret
@@ -5108,7 +5108,7 @@ variables.</p></li>
 <h3>Continuous</h3>
 <p>We can check this by looking at the structure of our data using the
 <code>str</code> function (for all the variables in our dataset). We can
-see that variables R is treating as continuos and move forward with our
+see what variables R is treating as continuous and move forward with our
 analyses!</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(mtcars)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    32 obs. of  11 variables:
@@ -5136,7 +5136,7 @@ anything in R to check this.</p>
 ability to write <code>functions</code> and <code>for loops</code>.
 First, we grab all of the names of the variables we want to get qq-plots
 for using <code>vars &lt;- colnames(mtcars)</code> and save them as a
-list in R. This will allow us to specifty what variables we want to
+list in R. This will allow us to specify what variables we want to
 graph. Depending on what datset we are working with, that can be as few
 as 2 or as many as the entire dataset! Second, we write our
 <code>qqplot_all</code> function which allows us to write the same graph
@@ -5836,12 +5836,12 @@ via python and analyzed using <code>LIWC</code>, <code>spaCY</code>, and
 <h2>Variable Description</h2>
 <p><strong>Flesch-Kincaid Ease of Readability</strong>: higher scores
 indicate material that is easier to read; lower numbers mark passages
-that are more difficult to read. Calculated using <code>spacCy</code> in
+that are more difficult to read. Calculated using <code>spaCy</code> in
 python.</p>
 <p><strong>The Flesch–Kincaid Grade Level Score</strong>: presents a
 score as a U.S. grade level, making it easier for teachers, parents,
 librarians, and others to judge the readability level of various books
-and texts.Calculated using <code>spacCy</code> in python.</p>
+and texts.Calculated using <code>spaCy</code> in python.</p>
 <p><strong>I-usage</strong>: First-person singular pronoun usage (% of
 total words). Calculated using <code>LIWC</code>.</p>
 <p><strong>We-usage</strong>: First-person plural pronoun usage (% of
@@ -6557,8 +6557,8 @@ words). Calculated using <code>LIWC</code>.</p>
 </ul></li>
 </ol>
 </div>
-<div id="paakge-citations" class="section level1">
-<h1>Paakge Citations</h1>
+<div id="package-citations" class="section level1">
+<h1>Package Citations</h1>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>report<span class="sc">::</span><span class="fu">cite_packages</span>()</span></code></pre></div>
 <pre><code>##   - Fox J, Weisberg S (2019). _An R Companion to Applied Regression_, Third edition. Sage, Thousand Oaks CA. &lt;https://socialsciences.mcmaster.ca/jfox/Books/Companion/&gt;.
 ##   - Fox J, Weisberg S, Price B (2022). _carData: Companion to Applied Regression Data Sets_. R package version 3.0-5, &lt;https://CRAN.R-project.org/package=carData&gt;.
@@ -6571,7 +6571,7 @@ words). Calculated using <code>LIWC</code>.</p>
 ##   - Kassambara A (2023). _rstatix: Pipe-Friendly Framework for Basic Statistical Tests_. R package version 0.7.2, &lt;https://CRAN.R-project.org/package=rstatix&gt;.
 ##   - Kuhn M (2022). _caret: Classification and Regression Training_. R package version 6.0-93, &lt;https://CRAN.R-project.org/package=caret&gt;.
 ##   - Lin G (2022). _reactable: Interactive Data Tables Based on &#39;React Table&#39;_. R package version 0.3.0, &lt;https://CRAN.R-project.org/package=reactable&gt;.
-##   - Müller K, Wickham H (2022). _tibble: Simple Data Frames_. R package version 3.1.8, &lt;https://CRAN.R-project.org/package=tibble&gt;.
+##   - Müller K, Wickham H (2023). _tibble: Simple Data Frames_. R package version 3.2.1, &lt;https://CRAN.R-project.org/package=tibble&gt;.
 ##   - R Core Team (2022). _R: A Language and Environment for Statistical Computing_. R Foundation for Statistical Computing, Vienna, Austria. &lt;https://www.R-project.org/&gt;.
 ##   - Rinker TW, Kurkiewicz D (2018). _pacman: Package Management for R_. version 0.5.0, &lt;http://github.com/trinker/pacman&gt;.
 ##   - Robinson D, Hayes A, Couch S (2023). _broom: Convert Statistical Objects into Tidy Tibbles_. R package version 1.0.4, &lt;https://CRAN.R-project.org/package=broom&gt;.
@@ -6581,7 +6581,7 @@ words). Calculated using <code>LIWC</code>.</p>
 ##   - Wickham H (2022). _stringr: Simple, Consistent Wrappers for Common String Operations_. R package version 1.5.0, &lt;https://CRAN.R-project.org/package=stringr&gt;.
 ##   - Wickham H (2023). _forcats: Tools for Working with Categorical Variables (Factors)_. R package version 1.0.0, &lt;https://CRAN.R-project.org/package=forcats&gt;.
 ##   - Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H (2019). &quot;Welcome to the tidyverse.&quot; _Journal of Open Source Software_, *4*(43), 1686. doi:10.21105/joss.01686 &lt;https://doi.org/10.21105/joss.01686&gt;.
-##   - Wickham H, François R, Henry L, Müller K, Vaughan D (2023). _dplyr: A Grammar of Data Manipulation_. R package version 1.1.0, &lt;https://CRAN.R-project.org/package=dplyr&gt;.
+##   - Wickham H, François R, Henry L, Müller K, Vaughan D (2023). _dplyr: A Grammar of Data Manipulation_. R package version 1.1.2, &lt;https://CRAN.R-project.org/package=dplyr&gt;.
 ##   - Wickham H, Henry L (2023). _purrr: Functional Programming Tools_. R package version 1.0.1, &lt;https://CRAN.R-project.org/package=purrr&gt;.
 ##   - Wickham H, Hester J, Bryan J (2023). _readr: Read Rectangular Text Data_. R package version 2.1.4, &lt;https://CRAN.R-project.org/package=readr&gt;.
 ##   - Wickham H, Vaughan D, Girlich M (2023). _tidyr: Tidy Messy Data_. R package version 1.3.0, &lt;https://CRAN.R-project.org/package=tidyr&gt;.
