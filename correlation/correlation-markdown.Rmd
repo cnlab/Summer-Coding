@@ -1,5 +1,5 @@
 ---
-title: "Simple Correlation examples "
+title: "Simple Correlation examples for students "
 author: "Steven"
 date: "`r Sys.Date()`"
 output:
